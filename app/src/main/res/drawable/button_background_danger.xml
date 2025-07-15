@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Pressed state -->
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="12dp"/>
+            <solid android:color="#DC2626"/> <!-- red-600, slightly darker -->
+            <padding android:left="16dp" android:right="16dp" android:top="8dp" android:bottom="8dp"/>
+        </shape>
+    </item>
+    <!-- Default state -->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="12dp"/>
+            <solid android:color="#EF4444"/> <!-- red-500 -->
+            <padding android:left="16dp" android:right="16dp" android:top="8dp" android:bottom="8dp"/>
+        </shape>
+    </item>
+</selector>
