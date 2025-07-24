@@ -91,6 +91,7 @@ class ONNXAudioModel : AudioModel {
                 Log.e("ONNXModel", "Failed to get output scores or output was not FloatArray. Check model output type.")
                 return FloatArray(0)
             }
+            Log.d("ONNXModel", "Data type: $outputOnnxValue")
             return outputOnnxValue
         } catch (e: Exception) {
             Log.e("ONNXModel", "Error running ONNX inference: ${e.message}", e)

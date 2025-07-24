@@ -367,8 +367,10 @@ class EvaluationManager(private val context: Context) {
         val tags = mutableListOf<AudioTag>()
         val classLabels = getAudioLabels()
         val output2DArray = rawPredictions as Array<FloatArray>
+        //Log.d("Preds", "Prediction shape: ${output2DArray.size}")
 
         val predictions = output2DArray[0]
+        //Log.d("Preds", "Prediction shape 00: ${predictions.size}")
 
         predictions.forEachIndexed{index, confidence ->
             if (index < classLabels.size && confidence>0.05f) {
@@ -377,6 +379,7 @@ class EvaluationManager(private val context: Context) {
             }
         }
         tags.sortedByDescending { it.confidence }.take(10)
+        Log.d("Preds", "$tags")
 
         return tags
     }
@@ -501,7 +504,7 @@ class EvaluationManager(private val context: Context) {
 
     private fun getModelInstance(modelName: String): AudioModel? {
         return if (modelName.endsWith(".tflite")) {
-            TFLiteAudioModel()
+            TFLiteAudioModel(useGPU = false)
         } else if (modelName.endsWith(".onnx")) {
             ONNXAudioModel()
         } else {
