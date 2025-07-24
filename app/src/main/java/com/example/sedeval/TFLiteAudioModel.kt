@@ -135,7 +135,10 @@ class TFLiteAudioModel(
             if (index < labels.size) { // Basic bounds check
                 finalListOfOutputs.add(labels[index])
             } else {
-                Log.w(TAG, "Label index $index out of bounds for labels list (size: ${labels.size})")
+                Log.w(
+                    TAG,
+                    "Label index $index out of bounds for labels list (size: ${labels.size})"
+                )
                 finalListOfOutputs.add("Unknown Label")
             }
         }
