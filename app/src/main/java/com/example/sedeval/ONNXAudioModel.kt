@@ -5,6 +5,7 @@ import android.util.Log
 import ai.onnxruntime.OnnxTensor
 import ai.onnxruntime.OrtEnvironment
 import ai.onnxruntime.OrtSession
+import ai.onnxruntime.TensorInfo
 import java.nio.ByteBuffer
 import java.nio.FloatBuffer
 
@@ -12,6 +13,7 @@ class ONNXAudioModel : AudioModel {
     private var ortSession: OrtSession? = null
     private var ortEnv: OrtEnvironment? = null
     private var inputFeatureSize: Int = 0
+    private lateinit var inputFeatureShape: LongArray
 
     override fun load(context: Context, modelName: String): Boolean {
         try {
@@ -27,6 +29,18 @@ class ONNXAudioModel : AudioModel {
 
             val sessionOptions = OrtSession.SessionOptions()
             ortSession = ortEnv?.createSession(modelByteBuffer, sessionOptions)
+
+            val modelInputInfo = ortSession!!.inputInfo
+            val inputName = ortSession!!.inputNames.iterator().next()
+            val inputInfo = ortSession!!.inputInfo[inputName]
+            inputFeatureShape = longArrayOf(1,1,64,101)
+            //inputFeatureShape = inputInfo?.info?.shape?.map{
+
+            //}
+
+
+            Log.d("ModelInfo", "modelInfo ${inputInfo?.info?.toString()}")
+
             Log.d("ONNXModel", "ONNX model loaded from assets: $modelName")
             return true
         } catch (e: Exception) {
@@ -60,7 +74,6 @@ class ONNXAudioModel : AudioModel {
             // If the model expects [1,1] and audioFeatures is 1000, this is the core issue.
             // The `audioFeatures` array MUST be prepared with the correct size.
             // For now, we'll assume the dummy data in EvaluationManager is adjusted.
-
             val inputBuffer = FloatBuffer.wrap(audioFeatures)
 
             inputTensor = OnnxTensor.createTensor(ortEnv, inputBuffer, inputShape)
@@ -72,7 +85,7 @@ class ONNXAudioModel : AudioModel {
             //val outputOnnxValue = results?.get(outputName)
             val outputOnnxValue = results?.get(0)?.value
             //val output2DArray = outputOnnxValue as Array<FloatArray>
-            //Log.d("ONNXModel", "Predictions: ${output2DArray[0]}")
+            //Log.d("preds", "Predictions: ${outputOnnxValue}")
             /*val preds = output2DArray[0]
             val tags = mutableListOf<AudioTag>()
             val labels = getAudioLabels()

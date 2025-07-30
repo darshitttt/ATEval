@@ -27,7 +27,7 @@ class EvaluationManager(private val context: Context) {
 
     val evaluationResults = MutableLiveData<String>()
     val evaluationProgress = MutableLiveData<Int>() // e.g., percentage
-    private val TARGET_SAMPLE_RATE = 32000
+    private val TARGET_SAMPLE_RATE = 16000
 
     fun startEvaluation(modelName: String, datasetUri: Uri) {
         if (isEvaluating) {
@@ -368,6 +368,7 @@ class EvaluationManager(private val context: Context) {
         val classLabels = getAudioLabels()
         val output2DArray = rawPredictions as Array<FloatArray>
         //Log.d("Preds", "Prediction shape: ${output2DArray.size}")
+        Log.d("Preds", "output: $output2DArray")
 
         val predictions = output2DArray[0]
         //Log.d("Preds", "Prediction shape 00: ${predictions.size}")
@@ -463,7 +464,7 @@ class EvaluationManager(private val context: Context) {
 
     private fun saveResults(perSecondPredictions: List<Map<String, Any>>, metrics: Map<String, Float>) {
         val timestamp = System.currentTimeMillis()
-        val filename = "evaluation_results_$timestamp.json"
+        val filename = "evaluation_results_$currentModel.json"
 
         try {
             // Get app-specific external storage directory (recommended over Downloads for app data)
