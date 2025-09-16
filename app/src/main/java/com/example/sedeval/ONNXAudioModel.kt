@@ -31,6 +31,7 @@ class ONNXAudioModel : AudioModel {
             ortSession = ortEnv?.createSession(modelByteBuffer, sessionOptions)
 
             val modelInputInfo = ortSession!!.inputInfo
+            Log.d("ModelInput", "model input: $modelInputInfo")
             val inputName = ortSession!!.inputNames.iterator().next()
             val inputInfo = ortSession!!.inputInfo[inputName]
             inputFeatureShape = longArrayOf(1,1,64,101)
@@ -61,7 +62,8 @@ class ONNXAudioModel : AudioModel {
             val inputName = ortSession!!.inputNames.iterator().next()
             val outputName = ortSession!!.outputNames.iterator().next()
 
-            val modelInputInfo = ortSession!!.inputInfo[inputName]
+            val modelInputInfo = ortSession!!.outputInfo[outputName]
+            Log.d("OutputInfo", "output info: ${modelInputInfo.toString()}")
             // This line now correctly extracts the shape from the model's metadata.
             // The `map { if (it == -1L) 1L else it }` handles dynamic batch sizes.
             //val inputShape = modelInputInfo?.typeAndShapeInfo?.asTensorInfo()?.shape?.map { if (it == -1L) 1L else it }?.toLongArray()
@@ -84,27 +86,11 @@ class ONNXAudioModel : AudioModel {
 
             //val outputOnnxValue = results?.get(outputName)
             val outputOnnxValue = results?.get(0)?.value
-            //val output2DArray = outputOnnxValue as Array<FloatArray>
-            //Log.d("preds", "Predictions: ${outputOnnxValue}")
-            /*val preds = output2DArray[0]
-            val tags = mutableListOf<AudioTag>()
-            val labels = getAudioLabels()
 
-            preds.forEachIndexed{index, confidence ->
-                if (index < labels.size && confidence>0.05f) {
-                    tags.add(AudioTag(labels[index], confidence))
-                    Log.d("ONNXModel", "Preds ${labels[index]}")
-                }
-            }
-
-            tags.sortedByDescending { it.confidence }.take(10)
-            val outputScores = (outputOnnxValue as? OnnxTensor)?.floatBuffer?.array()
-            */
             if (outputOnnxValue == null) {
                 Log.e("ONNXModel", "Failed to get output scores or output was not FloatArray. Check model output type.")
                 return FloatArray(0)
             }
-            Log.d("ONNXModel", "Data type: $outputOnnxValue")
             return outputOnnxValue
         } catch (e: Exception) {
             Log.e("ONNXModel", "Error running ONNX inference: ${e.message}", e)

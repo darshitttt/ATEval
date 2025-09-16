@@ -1,151 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp"
-    android:background="#f5f5f5">
+    tools:context=".MainActivity">
 
-    <!-- SED Eval -->
     <TextView
-        android:id="@+id/sedEval"
+        android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Audio Model Evaluator"
-        android:textSize="28sp"
+        android:text="Audio Evaluation"
+        android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="#333333"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="24dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Model Selection Section -->
     <TextView
+        android:id="@+id/textViewModel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Model:"
-        android:textSize="18sp"
-        android:textColor="#555555"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginTop="16dp"
+        android:text="Select a model:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
 
     <Spinner
-        android:id="@+id/modelSpinner"
-        android:layout_width="match_parent"
+        android:id="@+id/spinnerModel"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/spinner_background"
-        android:padding="12dp"
-        android:layout_marginBottom="24dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewModel" />
 
-    <!-- Dataset Selection Section -->
     <TextView
+        android:id="@+id/textViewDataset"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choose Evaluation Dataset Folder:"
-        android:textSize="18sp"
-        android:textColor="#555555"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginTop="16dp"
+        android:text="Select a dataset folder:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerModel" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/buttonSelectDataset"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="24dp">
+        android:text="Select Folder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDataset" />
 
-        <TextView
-            android:id="@+id/datasetPathTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="No folder selected"
-            android:textSize="16sp"
-            android:textColor="#333333"
-            android:background="@drawable/text_view_background"
-            android:padding="12dp"
-            android:layout_marginEnd="8dp"/>
-
-        <Button
-            android:id="@+id/chooseFolderButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Browse"
-            android:background="@drawable/button_background"
-            android:textColor="#ffffff"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:minHeight="48dp"/>
-    </LinearLayout>
-
-    <!-- Control Buttons Section -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginBottom="24dp">
-
-        <Button
-            android:id="@+id/startButton"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Start Evaluation"
-            android:background="@drawable/button_background"
-            android:textColor="#ffffff"
-            android:padding="14dp"
-            android:layout_marginEnd="16dp"
-            android:minHeight="56dp"/>
-
-        <Button
-            android:id="@+id/stopButton"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Stop Evaluation"
-            android:background="@drawable/button_background_secondary"
-            android:textColor="#333333"
-            android:padding="14dp"
-            android:minHeight="56dp"/>
-    </LinearLayout>
-
-    <!-- Evaluation Results Section -->
     <TextView
+        android:id="@+id/textViewDatasetPath"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ellipsize="start"
+        android:maxLines="1"
+        android:text="No folder selected"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSelectDataset" />
+
+    <!-- New UI elements for evaluation mode -->
+    <TextView
+        android:id="@+id/textViewMode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Evaluation Results:"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="#333333"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginTop="16dp"
+        android:text="Evaluation Mode (Framewise/Clipwise)"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDatasetPath" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/results_background"
-        android:padding="12dp">
-        <TextView
-            android:id="@+id/resultsTextView"
+    <Switch
+        android:id="@+id/evaluationModeSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMode"
+        android:textOff="Clipwise"
+        android:textOn="Framewise"
+        tools:checked="false"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutFrameSize"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Frame Size (ms)"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/evaluationModeSwitch"
+        android:visibility="gone">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextFrameSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="16sp"
-            android:textColor="#444444"
-            android:fontFamily="monospace"/>
-    </ScrollView>
+            android:inputType="number"/>
 
-    <!-- Close App Button -->
-    <Button
-        android:id="@+id/closeAppButton"
-        android:layout_width="wrap_content"
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutHopLength"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Close App"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/button_background_danger"
-        android:textColor="#ffffff"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
-        android:minHeight="48dp"/>
+        android:layout_marginTop="8dp"
+        android:hint="Hop Length (ms)"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textInputLayoutFrameSize"
+        android:visibility="gone">
 
-</LinearLayout>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextHopLength"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/buttonStartEvaluation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Start Evaluation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutHopLength" />
+
+    <Button
+        android:id="@+id/buttonStopEvaluation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Stop Evaluation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonStartEvaluation"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonStopEvaluation" />
+
+    <TextView
+        android:id="@+id/textViewStatus"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:gravity="bottom"
+        android:scrollbars="vertical"
+        android:text="Status:"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

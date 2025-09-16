@@ -165,7 +165,7 @@ class EvaluationManager(private val context: Context) {
                         // Run Inference
                         val rawPredictions = currentModel!!.predict(segmentPcm)
                         val predictedLabels =
-                            postProcessPredictions(rawPredictions) // Convert scores to class label
+                            postProcessPredictions(rawPredictions).take(10) // Convert scores to class label
                         //val predictedLabels = postProcessPredictions(rawPredictions).toString() // Convert scores to class label
 
                         // Store per-second prediction
@@ -366,21 +366,17 @@ class EvaluationManager(private val context: Context) {
         // Replace with your actual class labels in the correct order
         val tags = mutableListOf<AudioTag>()
         val classLabels = getAudioLabels()
-        val output2DArray = rawPredictions as Array<FloatArray>
-        //Log.d("Preds", "Prediction shape: ${output2DArray.size}")
-        Log.d("Preds", "output: $output2DArray")
+        val predictions = rawPredictions as Array<FloatArray>
+        Log.d("EvaluationManager", "${predictions[0].size}")
 
-        val predictions = output2DArray[0]
-        //Log.d("Preds", "Prediction shape 00: ${predictions.size}")
-
-        predictions.forEachIndexed{index, confidence ->
+        predictions[0].forEachIndexed{index, confidence ->
             if (index < classLabels.size && confidence>0.05f) {
                 tags.add(AudioTag(classLabels[index], confidence))
-                Log.d("Evaluation", "Preds ${classLabels[index]}")
+                //Log.d("Evaluation", "Preds ${confidence}, ${index}")
             }
         }
-        tags.sortedByDescending { it.confidence }.take(10)
-        Log.d("Preds", "$tags")
+        tags.sortByDescending { it.confidence }
+        //Log.d("Preds", "$tags")
 
         return tags
     }
